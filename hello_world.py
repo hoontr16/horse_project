@@ -1,5 +1,5 @@
 def hello_world(adj):
-    """ A big, beautiful function.
+    """ A big, beautiful function. 
     
     Arguments:
         adj (str, probably): how the user sees the world.
