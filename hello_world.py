@@ -12,6 +12,9 @@ def hello_world(adj):
 
 hello_world('cool')
 
+def halloween():
+    print("Ghost says boo!")
+
 def favorite_team(team):
     print (f"Arvins favorite team is the {team} ")
 
