@@ -1,4 +1,11 @@
 def draw_court(current_location):
+    """Draws a court in ASCII characters and adds a marker based on
+    the X and Y coordinate specified 
+    
+    Args:
+        current_location (tuple): The current location on the court based on the 
+        X and Y coordinates given. 
+    """
     court = """
             ::::::^::::::::::::::::::::::::::^::::::::::::::::::^::::::::::::::::::::::::::^::::::
             ~.    ~                         :^                  ::                         ~:   .^   
