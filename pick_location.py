@@ -57,7 +57,6 @@ def pick_location(probs, style, my_score, other_score):
     elif my_style == 'safe':
         new_probs = {i: probs[i] for i in probs if probs[i] > 0.67}
         locs_sorted = sorted(new_probs, key = lambda c: new_probs[c] * (1 - new_probs[c]))
-        get_loc(locs_sorted)
         return get_loc(locs_sorted)
     elif my_style == 'off-center':
         new_probs = {i: probs[i] for i in probs if angle_prob(i.angle) < 0.67}
@@ -121,11 +120,7 @@ def make_grid(length, width):
     return coords
 
 def get_vals(locs):
-    probs = {}
-    for coord in locs:
-        probs[coord] = coord.value()
-    #s_probs = sorted(probs.items, key = probs.values, reverse=True)
-    #median = s_probs[]
+    probs = {coord: coord.value() for coord in locs}
     return probs
 
 styles = ('random', 'risky', 'safe', 'off-center')
