@@ -1,9 +1,7 @@
 class Player:
-    def __init__(self, name, location, height, skill):
+    def __init__(self, name, location):
         self.loc = location
         self.name = name
-        self.height = height
-        self.skill = skill
     
     def pick_location(self):
         return
