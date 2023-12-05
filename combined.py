@@ -64,74 +64,8 @@ def draw_court(current_location):
 
 #draw_court((3, 25))
 
-from math import atan, exp, pi
+from math import atan2, exp, pi
 from random import choice, gauss
-
-""" 
-    Only get_loc and pick_location directly determine the AI, everything else
-    was necessary for testing, and to determine whether the AI's personality
-    styles actually worked.
-"""
-
-def get_loc(d):
-    """ Pick a random coordinate from a set of coordinates using a Gaussian
-            distribution.
-            
-    Arguments:
-        d (list): the list of coordinates to pick from, sorted least to greatest
-        
-    Returns:
-        Coordinate: the chosen coordinate.
-    """
-    a = 0
-    quantiles = []
-    for i in d:
-        quantiles.append(a / len(d))
-        a += 1
-    pick = gauss(mu = 0.5, sigma = 0.2)
-    while pick > 1 or pick < 0:
-        pick = gauss(mu = 0.5, sigma = 0.2)
-    b = 0
-    for j in quantiles:
-        if pick < j:
-            return d[b - 1]
-        b += 1
-
-def pick_location(probs, style, my_score, other_score):
-    """ Decide on a location for an AI player to shoot from, given the current
-            game state.
-    
-    Arguments:
-        probs (dict): coordinate objects and their shot probabilities.
-        style (str): the AI's playing style
-        my_score (int): the AI's current score
-        other_score (int): the other player's current score
-    
-    Returns:
-        Coordinate: the chosen position to shoot from.
-    """
-    if my_score - other_score > 2:
-        my_style = 'risky'
-    elif my_score - other_score < -2:
-        my_style = 'safe'
-    else:
-        my_style = style
-    if my_style == 'risky':
-        new_probs = {i: probs[i] * (1 - probs[i]) for i in probs if probs[i] * (1 - probs[i]) > 0.15}
-        locs_sorted = sorted(new_probs, key = lambda c: new_probs[c] * (1 - new_probs[c]))
-        return get_loc(locs_sorted)
-    elif my_style == 'safe':
-        new_probs = {i: probs[i] for i in probs if probs[i] > 0.67}
-        locs_sorted = sorted(new_probs, key = lambda c: new_probs[c] * (1 - new_probs[c]))
-        return get_loc(locs_sorted)
-    elif my_style == 'off-center':
-        new_probs = {i: probs[i] for i in probs if angle_prob(i.angle) < 0.67}
-        locs_sorted = sorted(new_probs, key = lambda c: new_probs[c] * (1 - new_probs[c]))
-        return get_loc(locs_sorted)
-    else:
-        return choice(list(probs.keys()))
-
-
 
 court_len, court_width = (20, 16)
 
@@ -150,27 +84,33 @@ def normalize_dist(dist, length, width):
     return dist / max_dist
 
 class Coordinate:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.h = ((x ** 2) + (y ** 2)) ** 0.5
+    def __init__(self, x, y, width):
+        self.cx = x - (width / 2)
+        self.cy = y
+        self.px = x
+        self.py = y
+        self.w = width
+        self.h = ((self.cx ** 2) + (self.cy ** 2)) ** 0.5
         self.pair = (x, y)
-        if y == 0:
-            if x < 0:
+        if self.cy == 0:
+            if self.cx < 0:
                 self.angle = -pi / 2
-            elif x > 0:
+            elif self.cx > 0:
                 self.angle = pi / 2
             else:
                 self.angle = 0
         else:
-            self.angle = atan(x / y)
+            self.angle = atan2(self.cy, self.cx)
         self.prob = 1
     
     def __str__(self):
         return f"{self.pair}"
     
+    def __repr__(self):
+        return f"<Coordinate({self.px}, {self.py}, {self.w})>"
+    
     def __lt__(self, other):
-        return True if self.h < other.h else False
+        return True if self.prob < other.prob else False
     
     def value(self):
         self.prob1 = angle_prob(self.angle)
@@ -285,8 +225,62 @@ class Player:
         return
 
 class ComputerPlayer(Player):
-    def pick_location(self):
-        return ai_logic()
+    def pick_location(self, probs, other_score):
+        """ Decide on a location for an AI player to shoot from, given the current
+                game state.
+        
+        Arguments:
+            probs (dict): coordinate objects and their shot probabilities.
+            style (str): the AI's playing style
+            my_score (int): the AI's current score
+            other_score (int): the other player's current score
+        
+        Returns:
+            Coordinate: the chosen position to shoot from.
+        """
+        if self.score - other_score < -2:
+            my_style = 'risky'
+        elif self.score - other_score > 2:
+            my_style = 'safe'
+        else:
+            my_style = self.style
+        if my_style == 'risky':
+            locs_sorted = sorted([i for i in probs if i.prob * (1 - i.prob) > 0.15], key=lambda c: c.prob * (1 - c.prob))
+            self.loc = get_loc(locs_sorted)
+        elif my_style == 'safe':
+            locs_sorted = sorted([i for i in probs if i.prob > 0.67])
+            self.loc = get_loc(locs_sorted)
+        elif my_style == 'off-center':
+            locs_sorted = sorted([i for i in probs if angle_prob(i.angle) < 0.67])
+            self.loc = get_loc(locs_sorted)
+        else:
+            self.loc = choice(list(probs.keys()))
+        print(self.loc, self.loc.prob)
+
+def get_loc(d):
+    """ Pick a random coordinate from a set of coordinates using a Gaussian
+            distribution.
+            
+    Arguments:
+        d (list): the list of coordinates to pick from, sorted least to greatest
+        
+    Returns:
+        Coordinate: the chosen coordinate.
+    """
+    a = 0
+    #print(d)
+    quantiles = []
+    for i in d:
+        a += 1
+        quantiles.append(a / len(d))
+    pick = gauss(mu = 0.5, sigma = 0.2)
+    while pick > 1 or pick < 0:
+        pick = gauss(mu = 0.5, sigma = 0.2)
+    b = 0
+    for j in quantiles:
+        if pick < j:
+            return d[b - 1]
+        b += 1
 
 def shot_position(self):
     """Takes user input on the position of the next shot that they would 
