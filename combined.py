@@ -62,7 +62,7 @@ def draw_court(current_location):
     
     print(new_court)
 
-draw_court((3, 25))
+#draw_court((3, 25))
 
 from math import atan, exp, pi
 from random import choice, gauss
@@ -190,15 +190,6 @@ def get_vals(locs):
     return probs
 
 styles = ('random', 'risky', 'safe', 'off-center')
-
-if __name__ == '__main__':
-    grid = make_grid(court_len, court_width)
-    vals = get_vals(grid)
-    x = 0
-    while x < 20:
-        a = pick_location(vals, 'safe', 0, 0)
-        print(a, a.prob)
-        x += 1
 
 import random
 
