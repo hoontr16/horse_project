@@ -192,17 +192,22 @@ class Player:
 def score(prev_results, players):
     """
     Adds the score after each shot, giving points to the given player, and print messages describing the round.
-    prev_results (str): The results of the last round.
-    players (list): List of Player instances.
+    
+    Args:
+        prev_results (str): Last round results, either "success" or "failure".
+        players (list): List of the Player instances.
     """
     if prev_results == "success":
-        players[0].score = players[0].score + 1  # index would be at 0
+        # Increment the score of the player who made the shot
+        for player in players:
+            if player.shooter:
+                player.score += 1
 
     # Print the current scores for all players
     print("Present Score:")
-    for player in players: 
-        print(f"{player.name}: {player.score} points") # Name:ScoreXX
-
+    for player in players:
+        print(f"{player.name}: {player.score} points")
+        
 def do_outcome(player1, player2):
     if player2.shot == None:
         return
