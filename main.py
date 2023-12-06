@@ -2,6 +2,8 @@ from player import Player, ComputerPlayer
 from random import choice
 from draw_court import draw_court
 
+def 
+
 def main():
     """ The actual game loop.
     """

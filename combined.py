@@ -76,7 +76,7 @@ def draw_court(current_location):
 from math import atan2, exp, pi
 from random import choice, gauss
 
-court_len, court_width = (20, 16)
+court_len, court_width = (22, 13)
 
 def dist_prob(x):
     exponent = -7 * (-x + 0.6)
@@ -143,11 +143,9 @@ styles = ('random', 'risky', 'safe', 'off-center')
 import random
 
 class Player:
-    def __init__(self, name, location, height, skill):
+    def __init__(self, name, location):
         self.loc = location
         self.name = name
-        self.height = height
-        self.skill = skill
 
     def result(self, angle, position):
         """Return True if the shot is made, False otherwise.
@@ -175,7 +173,7 @@ class Player:
         skill_bonus = 0 + self.skill 
 
         #total chance after considering factors
-        total_probability = base + position_bonus + skill_bonus
+        total_probability = base + position_bonus
 
         #adjusts probability based off of the angle
         if 40 <= angle <= 60:
@@ -188,6 +186,25 @@ class Player:
 
         #if random float is less than probability, the result will be True, otherwise, it is false
         return random.random() < probability
+
+    def pick_location(self):
+        """Takes user input on the position of the next shot that they would 
+            like to take and updates thier location
+            
+            Returns:
+                self.loc(int): new location of player 
+                """
+        draw_court(self.location)
+        while True:
+            x_cor = int(input("input the X coordinate you would like to shoot from"))
+            y_cor = int(input("input the Y coordinate you would like to shoot from"))
+            if 1 < x_cor < 22 and 1 < y_cor < 13:
+                break
+            else:
+                print("out of bounds, try again")
+        self.loc = x_cor, y_cor
+        print(f" your current location is {x_cor},{y_cor}")
+        return self.loc
 
 def score(prev_results, players):
     """
@@ -209,11 +226,12 @@ def score(prev_results, players):
         print(f"{player.name}: {player.score} points")
         
 def do_outcome(player1, player2):
-    if player2.shot == None:
-        return
-    elif player1.shot == False:
+    if player1.shot == False:
         return 'switch'
+    elif player2.shot == None:
+        return
     elif player1.shot and not player2.shot:
+        player2.score += 1
         return 'score'
     elif player1.shot and player2.shot:
         return 'pass'
@@ -296,21 +314,8 @@ def get_loc(d):
             return d[b - 1]
         b += 1
 
-def shot_position(self):
-    """Takes user input on the position of the next shot that they would 
-        like to take and updates thier location
-        
-        Returns:
-            self.loc(int): new location of player 
-            """
-    while True:
-        x_cor = int(input("input the X coordinate you would like to shoot from"))
-        y_cor = int(input("input the Y coordinate you would like to shoot from"))
-        if 2 < x_cor < 39 and 13 < y_cor < 96:
-            break
-        else:
-            print("out of bounds, try again")
-    self.loc = x_cor, y_cor
-    print(f" your current location is {x_cor},{y_cor}")
-    return self.loc
 
+
+def main():
+    hnum = input("How many  human players? ")
+    cnum = int(input(""))
