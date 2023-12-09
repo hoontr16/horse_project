@@ -211,12 +211,7 @@ def make_grid(length, width):
         c.value()
     return coords
 
-#def get_vals(locs):
-#    probs = {coord: coord.value() for coord in locs}
-#    return probs
-
 grid = make_grid(court_len, court_width)
-#vals = get_vals(grid)
 
 def find_coordinate(x, y):
     for coord in grid:
