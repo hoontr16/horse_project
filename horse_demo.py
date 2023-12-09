@@ -56,10 +56,23 @@ class Player:
         self.score = 0
         self.shot = None
 
-    def shoot(self):
+def shoot(self):
+        """
+        Prints the player's name and the shot attempt with a delay after calculated probability.
+
+        Side-effects:
+            Updates the shot attribute of the player object.
+
+        Returns:
+            None
+        """     
+         
         print(f"{self.name} is taking their shot...")
         sleep(0.5)
-        result = random() < self.loc.prob
+        
+        probability = min(1.0, self.loc.prob)
+        result = random() < probability
+        
         if result:
             print(f"{self.name} made the shot!")
             self.shot = True
@@ -196,10 +209,54 @@ class Coordinate:
     def __lt__(self, other):
         return True if self.prob < other.prob else False
     
-    def value(self):
+
+    def value(self):        
+        """
+        Calculates the probability after considering angle, distance, and type.
+        
+        Side-effects: 
+            Sets relevant attributes for every type.
+        
+        Returns:
+            Float:
+                Calculated probability of making the shot, factoring in angle, distance, and type bonuses.     
+        """
+        
         self.prob1 = angle_prob(self.angle)
         self.prob2 = dist_prob(normalize_dist(self.h, court_len, court_width))
-        self.prob = self.prob1 * self.prob2
+        self.prob = (self.prob1 * self.prob2)
+        
+        type_bonuses = {
+            "lay-up": 0.10,
+            "free-throw": 0.075,
+            "three-pointer": -0.05,
+            "two-pointer": 0.0
+        }
+        
+        if self.h <=1:
+            key = "lay-up"  
+            self.type = key
+            bonus = type_bonuses.get(key)
+            self.prob += bonus     
+        
+        if self.py ==6 and self.px in range (9,15):
+            key = "free-throw"  
+            self.type = key
+            bonus = type_bonuses.get(key)
+            self.prob += bonus     
+        
+        if self.h >=9:
+            key = "three-pointer"  
+            bonus = type_bonuses.get(key)
+            self.type = key
+            self.prob += bonus  
+        
+        else:
+            key = "two-pointer"  
+            self.type = key
+            bonus = type_bonuses.get(key)
+            self.prob += bonus     
+        
         return self.prob
 
 def make_grid(length, width):
