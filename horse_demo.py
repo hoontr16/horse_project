@@ -46,15 +46,29 @@ class GameState:
             raise ValueError("Invalid game status")
         
     def check_win(self):
-        if self.p1.score > 4:
-            return self.p2
-        elif self.p2.score > 4:
-            return self.p1
+        """ Determines the winner of the game
+        
+        Returns:
+            PLayer or None: The player who won the game based on the score,
+            if no player has won, it returns None.
+
+        """
+        return self.p1 if self.p2.score > 4 else self.p2 if self.p1.score > 4 else None #Conditonal Expression to determine the winner
+    
+    def display_shot_history(self):
+        """ Displays the shot history for each player
+        
+        Side effects:
+            Prints the f-string containing the players history to the terminal
+        """
+        for player in self.players: #iterates through every player in self.players 
+            print(f"{player.name}'s Shot History {player.shot_history}") 
 
 class Player:
     def __init__(self, pnum):
         self.score = 0
         self.shot = None
+        self.shot_history = []
 
     def shoot(self):
         print(f"{self.name} is taking their shot...")
@@ -66,6 +80,8 @@ class Player:
         else:
             print("Bad shot")
             self.shot = False
+        
+        self.shot_history.append(self.loc.pair) #appends the location the player shot from to self.shot_history
             
 class HumanPlayer(Player):
     def __init__(self, pnum):
@@ -265,16 +281,16 @@ court = """
          13 ^^::::::::::::::::::::::::::::::~:::::::::::::::::::^:::::::::::::::::::::::::::::::^:  """
          
 def draw_court(current_location = None):
-    """Draws a court in ASCII characters and adds a marker based on
-    the X and Y coordinate specified 
+    """Updates the ASCII court representation of a court with the "X" marker,
+    at the location specified by user. If there is no location specified, it 
+    prints the court representation without the marker.
     
     Args:
-        current_location (tuple): The current location on the court based on the 
-        X and Y coordinates given. 
+        current_location (optional): The current location on the court based on the 
+        X and Y coordinates given, if none given the current location = None. 
         
         Side effects: 
-            Prints the court with the marker at a specified location
-            to the terminal. 
+            Prints the court with to the terminal. 
     """
     if current_location == None:
         new_court = court
@@ -283,18 +299,18 @@ def draw_court(current_location = None):
         marker = "X"
         counts = 0
         x, y = current_location #unpacking the current location sequence into x and y variables.
-        line_number = 3 * (y) + 1
-        if not (0 < y < 14 and 0 < x < 23): #Ensures that the location specified is within the boundaries of the court and continues if it is.
+        line_number = 3 * (y) + 1 #calculation for the y-axis 
+        if not (0 < y < 14 and 0 < x < 23): #Ensures that the location specified is within the boundaries of the court 
             print("Out of bounds, please try again.") 
             return
         for line in court.split("\n"):
             counts += 1
-            if counts == line_number: # If counts is equivalent to index 0 of the current location (x-axis) then continue
-                index = 4 * x + 9 
-                new_line = line[:index] + marker + line[index + 1:] #splices through ther line and adds the marker on the specification of index 1 (y-axis)
+            if counts == line_number: # If counts is equivalent to line_number (y-axis) then continue
+                index = 4 * x + 9 #calculation for the x axis 
+                new_line = line[:index] + marker + line[index + 1:] #splices through the line and adds the marker on the specification of index  (x-axis)
                 new_court += new_line + "\n" #adds the new line with the marker to the new court 
             else:
-                new_court += line + "\n" #add the unchanged lines to the new court 
+                new_court += line + "\n" #add the unchanged lines to the new court if counts isn't equivalent the line_number
     print(new_court)
     
 def main():
@@ -309,6 +325,7 @@ def main():
         print(f"Scores:\n{gs.players[0].name}: {gs.players[0].score}\n{gs.players[1].name}: {gs.players[1].score}")
         a = input("Press Enter to continue  ")
     print(f"{gs.check_win().name} wins!")
+    print(gs.display_shot_history()) #prints the shot history to terminal at the end of the game
         
 if __name__ == '__main__':
     grid = make_grid(court_len, court_width)
