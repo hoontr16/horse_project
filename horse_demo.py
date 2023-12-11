@@ -250,7 +250,7 @@ class ComputerPlayer(Player):
         self.name = f"Computer {pnum}"
         self.style = choice(styles)
         print(self.style)
-        
+    
     def pick_location(self, probs, other_score):
         """ Decide on a location for an AI player to shoot from, given the current
                 game state.
@@ -393,9 +393,8 @@ class Coordinate:
         self.prob = 1
     
     def __str__(self):
-        """ The string representation of the Coordinate, as an ordered pair.
-        """
-        return f"{self.pair}"
+        """Displaying the str representation of a Coordinate in an ordered pair."""
+        return f"{self.pair} (Prob: {self.prob:.2f})"
     
     def __repr__(self):
         """ The formal string representation, showing how to recreate the object.
