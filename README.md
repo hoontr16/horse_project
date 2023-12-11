@@ -35,6 +35,6 @@ After running the horse.py program, the terminal will ask you how you would like
 |check_win|Arvin Torabazari| Conditional Expressions| 
 |display_shot_history| Arvin Torabazari| N/A|
 |shoot            |Kobe Cheng      |key function using min() |
-|value            |Kobe Cheng      |dictionary comprehension |
+|value            |Kobe Cheng      |list comprehension |
 |HumanPlayer.pick_location| Hunter Horst| regular expressions|
 |ComputerPlayer.__init__| Hunter Horst| super()|
