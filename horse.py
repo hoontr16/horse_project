@@ -440,7 +440,7 @@ class Coordinate:
         }
         
         #determines shot type based on conditions using a list comprehension
-        shot_types = [shot_type for shot_type, condition in shot_conditions.items() if condition]
+        shot_types = [shot_type for condition, shot_type in shot_conditions.items() if condition]
         key = shot_types[0] if shot_types else "two-pointer"
         
         #defines type bonuses for the conditions
