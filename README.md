@@ -34,10 +34,7 @@ After running the horse_demo.py program, the terminal will ask you how you would
 |draw_court|Arvin Torabazari| Sequence Unpacking|
 |check_win|Arvin Torabazari| Conditional Expressions| 
 |display_shot_history| Arvin Torabazari| N/A|
-
-### Attribution
-
-| Method/Function | Primary author | Techniques demonstrated |
-|:----------------|:---------------|:------------------------|
 |shoot            |Kobe Cheng      |key function using min() |
 |value            |Kobe Cheng      |dictionary comprehension |
+|HumanPlayer.pick_location| Hunter Horst| regular expressions|
+|ComputerPlayer.__init__| Hunter Horst| super()|
