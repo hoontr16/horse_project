@@ -86,6 +86,19 @@ class GameState:
             return self.p2
         elif self.p2.score > 4:
             return self.p1
+        else:
+            return None
+    def display_scores(self):
+        """Display scores using letters (H, O, R, S, E)."""
+        scores = {
+            0: '', 1: 'H', 2: 'HO', 3: 'HOR', 4: 'HORS', 5: 'HORSE'
+        }
+
+        p1_score = scores[self.p1.score]
+        p2_score = scores[self.p2.score]
+
+        print(f"{self.p1.name}: {p1_score}")
+        print(f"{self.p2.name}: {p2_score}")
 
 class Player:
     """ A base class for both human and computer players.
@@ -131,6 +144,7 @@ class Player:
         else:
             print("Bad shot")
             self.shot = False
+            
             
 class HumanPlayer(Player):
     """ A subclass of Player for humans.
@@ -547,22 +561,19 @@ def draw_court(current_location = None):
     
 def main():
     """ Create and run the game.
-    
-    Side effects:
-        print informative messages
     """
     gs = GameState()
     n = 0
-    while gs.check_win() == None:
+    while gs.check_win() is None:
         print(f"It's {gs.p1.name}'s turn to pick")
         gs.turn()
         n += 1
-        if n % 10 == 0:
-            print(f"It's turn {n}")
-        print(f"Scores:\n{gs.players[0].name}: {gs.players[0].score}\n{gs.players[1].name}: {gs.players[1].score}")
+        print(f"It's turn {n}") if n % 10 == 0 else None
+        gs.display_scores()
         a = input("Press Enter to continue  ")
+
     print(f"{gs.check_win().name} wins!")
-        
+            
 if __name__ == '__main__':
     grid = make_grid(court_len, court_width)
     main()
