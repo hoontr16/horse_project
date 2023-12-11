@@ -415,7 +415,6 @@ class Coordinate:
             bool: whether self has a lower shot probability than other
         """
         return True if self.prob < other.prob else False
-    
 
     def value(self):        
         """
@@ -433,13 +432,18 @@ class Coordinate:
         self.prob2 = dist_prob(normalize_dist(self.h, court_len, court_width))
         self.prob = (self.prob1 * self.prob2)
         
-        #defines conditions and type bonuses for different shots
+        #defines conditions for different shots
         shot_conditions = {
         self.h <= 1: "lay-up",
         self.py == 6 and self.px in range(9, 15): "free-throw",
         self.h >= 9: "three-pointer"
         }
         
+        #determines shot type based on conditions using a list comprehension
+        shot_types = [shot_type for shot_type, condition in shot_conditions.items() if condition]
+        key = shot_types[0] if shot_types else "two-pointer"
+        
+        #defines type bonuses for the conditions
         type_bonuses = {
         "lay-up": 0.10,
         "free-throw": 0.075,
@@ -447,15 +451,7 @@ class Coordinate:
         "two-pointer": 0.0
         }
         
-        #determines shot type based on conditions 
-        for condition, shot_type in shot_conditions.items():
-            if condition:
-                key = shot_type
-                break
-            else:  
-                key = "two-pointer"
-        
-        #applies the bonuses
+        #applies bonuses by using the key from list comprehension 
         self.type = key
         bonus = type_bonuses.get(key)
         self.prob += bonus
