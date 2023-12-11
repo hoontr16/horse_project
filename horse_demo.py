@@ -82,10 +82,23 @@ class GameState:
             raise ValueError("Invalid game status")
         
     def check_win(self):
-        if self.p1.score > 4:
-            return self.p2
-        elif self.p2.score > 4:
-            return self.p1
+        """ Determines the winner of the game
+        
+        Returns:
+            PLayer or None: The player who won the game based on the score,
+            if no player has won, it returns None.
+
+        """
+        return self.p1 if self.p2.score > 4 else self.p2 if self.p1.score > 4 else None #Conditonal Expression to determine the winner
+    
+    def display_shot_history(self):
+        """ Displays the shot history for each player
+        
+        Side effects:
+            Prints the f-string containing the players history to the terminal
+        """
+        for player in self.players: #iterates through every player in self.players 
+            print(f"{player.name}'s Shot History {player.shot_history}") 
     
 
     def display_scores(self):
@@ -576,6 +589,7 @@ def main():
         a = input("Press Enter to continue  ")
 
     print(f"{gs.check_win().name} wins!")
+    print(gs.display_shot_history()) #prints the shot history at the end of the game 
         
 if __name__ == '__main__':
     grid = make_grid(court_len, court_width)
