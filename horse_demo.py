@@ -434,37 +434,23 @@ class Coordinate:
         self.prob = (self.prob1 * self.prob2)
         
         #defines type bonuses for different shots
-        type_bonuses = {
-            "lay-up": 0.10,
-            "free-throw": 0.075,
-            "three-pointer": -0.05,
-            "two-pointer": 0.0
+        shot_conditions = {
+        self.h <= 1: "lay-up",
+        self.py == 6 and self.px in range(9, 15): "free-throw",
+        self.h >= 9: "three-pointer"
         }
         
         #determines shot type based on conditions and then applies the bonuses
-        if self.h <=1:
-            key = "lay-up"  
-            self.type = key
-            bonus = type_bonuses.get(key)
-            self.prob += bonus     
+        for condition, shot_type in shot_conditions.items():
+            if condition:
+                key = shot_type
+                break
+            else:  
+                key = "two-pointer"
         
-        if self.py ==6 and self.px in range (9,15):
-            key = "free-throw"  
-            self.type = key
-            bonus = type_bonuses.get(key)
-            self.prob += bonus     
-        
-        if self.h >=9:
-            key = "three-pointer"  
-            bonus = type_bonuses.get(key)
-            self.type = key
-            self.prob += bonus  
-        
-        else:
-            key = "two-pointer"  
-            self.type = key
-            bonus = type_bonuses.get(key)
-            self.prob += bonus     
+        self.type = key
+        bonus = shot_conditions.get(key)
+        self.prob += bonus
         
         return self.prob
 
