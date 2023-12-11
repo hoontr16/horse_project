@@ -16,15 +16,16 @@ If the second player makes it then the first player just chooses the location ag
 The game will continue until one player accumulates all letters to make the word HORSE. 
 
 ## Purpose of each file in the repository 
+.gitignore: Ignore
 
-horse_demo.py: Full code 
+horse.py: Full code 
 
 draw_court.py: To show Arvin's contribution to the draw_court function.
 
 README.md: Documentation 
 
 ### Running the program
-After running the horse_demo.py program, the terminal will ask you how you would like to play. You can play with two human players, 1 human player, and one computer player or two computer players. If you specify human players the terminal will ask you to enter your name. Whenever it is a human player's turn, they have to press the enter to continue, and an empty court representation will be shown in the terminal. Then they are asked to input a location in x, y format. Whenever it is a computer player's turn, click enter to continue. 
+After running the horse.py program, the terminal will ask you how you would like to play. You can play with two human players, 1 human player, and one computer player or two computer players. If you specify human players the terminal will ask you to enter your name. Whenever it is a human player's turn, they have to press the enter to continue, and an empty court representation will be shown in the terminal. Then they are asked to input a location in x, y format. Whenever it is a computer player's turn, click enter to continue. 
 
 ### Attribution
 
@@ -33,5 +34,12 @@ After running the horse_demo.py program, the terminal will ask you how you would
 |draw_court|Arvin Torabazari| Sequence Unpacking|
 |check_win|Arvin Torabazari| Conditional Expressions| 
 |display_shot_history| Arvin Torabazari| N/A|
+<<<<<<< HEAD
 |main|Yash Khanna| | 
 |display_scores| Yash Khanna |f-strings containing expressions|
+=======
+|shoot            |Kobe Cheng      |key function using min() |
+|value            |Kobe Cheng      |list comprehension |
+|HumanPlayer.pick_location| Hunter Horst| regular expressions|
+|ComputerPlayer.__init__| Hunter Horst| super()|
+>>>>>>> dd2331fd60e5b2f77adfd7c40b29ac0ef7730c46

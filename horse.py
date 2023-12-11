@@ -145,21 +145,24 @@ class Player:
         Returns:
             None
         """     
-         
+        #prints name and shot attempt with a delay
         print(f"{self.name} is taking their shot...")
         sleep(0.5)
         
+        #determines if shot is sucessful based on calculated proabbility
         probability = min(1.0, self.loc.prob)
         result = random() < probability
         
+        #updates shot attribute based on the result of shot attempt
         if result:
             print(f"{self.name} made the shot!")
             self.shot = True
         else:
             print("Bad shot")
             self.shot = False
-        
-        self.shot_history.append(self.loc.pair) #appends the location the player shot from to self.shot_history
+            
+        #appends the location the player shot from to self.shot_history
+        self.shot_history.append(self.loc.pair) 
             
             
 class HumanPlayer(Player):
@@ -281,7 +284,7 @@ class ComputerPlayer(Player):
             self.loc = get_loc(locs_sorted)
         else:
             self.loc = choice(probs)
-        print(self.loc, self.loc.prob)
+        print(self.loc)
     
 def get_loc(d):
     """ Pick a random coordinate from a set of coordinates using a Gaussian
@@ -411,7 +414,6 @@ class Coordinate:
             bool: whether self has a lower shot probability than other
         """
         return True if self.prob < other.prob else False
-    
 
     def value(self):        
         """
@@ -424,41 +426,34 @@ class Coordinate:
             Float:
                 Calculated probability of making the shot, factoring in angle, distance, and type bonuses.     
         """
-        
+        #calculates probability based on angle and distance
         self.prob1 = angle_prob(self.angle)
         self.prob2 = dist_prob(normalize_dist(self.h, court_len, court_width))
         self.prob = (self.prob1 * self.prob2)
         
-        type_bonuses = {
-            "lay-up": 0.10,
-            "free-throw": 0.075,
-            "three-pointer": -0.05,
-            "two-pointer": 0.0
+        #defines conditions for different shots
+        shot_conditions = {
+        self.h <= 1: "lay-up",
+        self.py == 6 and self.px in range(9, 15): "free-throw",
+        self.h >= 9: "three-pointer"
         }
         
-        if self.h <=1:
-            key = "lay-up"  
-            self.type = key
-            bonus = type_bonuses.get(key)
-            self.prob += bonus     
+        #determines shot type based on conditions using a list comprehension
+        shot_types = [shot_type for condition, shot_type in shot_conditions.items() if condition]
+        key = shot_types[0] if shot_types else "two-pointer"
         
-        if self.py ==6 and self.px in range (9,15):
-            key = "free-throw"  
-            self.type = key
-            bonus = type_bonuses.get(key)
-            self.prob += bonus     
+        #defines type bonuses for the conditions
+        type_bonuses = {
+        "lay-up": 0.10,
+        "free-throw": 0.075,
+        "three-pointer": -0.05,
+        "two-pointer": 0.0
+        }
         
-        if self.h >=9:
-            key = "three-pointer"  
-            bonus = type_bonuses.get(key)
-            self.type = key
-            self.prob += bonus  
-        
-        else:
-            key = "two-pointer"  
-            self.type = key
-            bonus = type_bonuses.get(key)
-            self.prob += bonus     
+        #applies bonuses by using the key from list comprehension 
+        self.type = key
+        bonus = type_bonuses.get(key)
+        self.prob += bonus
         
         return self.prob
 
