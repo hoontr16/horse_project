@@ -35,8 +35,9 @@ After running the horse.py program, the terminal will ask you how you would like
 |check_win|Arvin Torabazari| Conditional Expressions| 
 |display_shot_history| Arvin Torabazari| N/A|
 <<<<<<< HEAD
-|main|Yash Khanna| | 
+|main|Yash Khanna|N/A| 
 |display_scores| Yash Khanna |f-strings containing expressions|
+|str| Yash Khanna |using a magic method|
 =======
 |shoot            |Kobe Cheng      |key function using min() |
 |value            |Kobe Cheng      |list comprehension |
