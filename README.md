@@ -16,6 +16,7 @@ If the second player makes it then the first player just chooses the location ag
 The game will continue until one player accumulates all letters to make the word HORSE. 
 
 ## Purpose of each file in the repository 
+.gitignore: Ignore
 
 horse_demo.py: Full code 
 
@@ -33,3 +34,10 @@ After running the horse_demo.py program, the terminal will ask you how you would
 |draw_court|Arvin Torabazari| Sequence Unpacking|
 |check_win|Arvin Torabazari| Conditional Expressions| 
 |display_shot_history| Arvin Torabazari| N/A|
+
+### Attribution
+
+| Method/Function | Primary author | Techniques demonstrated |
+|:----------------|:---------------|:------------------------|
+|shoot            |Kobe Cheng      |key function using min() |
+|value            |Kobe Cheng      |dictionary comprehension |
