@@ -145,21 +145,24 @@ class Player:
         Returns:
             None
         """     
-         
+        #prints name and shot attempt with a delay
         print(f"{self.name} is taking their shot...")
         sleep(0.5)
         
+        #determines if shot is sucessful based on calculated proabbility
         probability = min(1.0, self.loc.prob)
         result = random() < probability
         
+        #updates shot attribute based on the result of shot attempt
         if result:
             print(f"{self.name} made the shot!")
             self.shot = True
         else:
             print("Bad shot")
             self.shot = False
-        
-        self.shot_history.append(self.loc.pair) #appends the location the player shot from to self.shot_history
+            
+        #appends the location the player shot from to self.shot_history
+        self.shot_history.append(self.loc.pair) 
             
             
 class HumanPlayer(Player):
@@ -425,11 +428,12 @@ class Coordinate:
             Float:
                 Calculated probability of making the shot, factoring in angle, distance, and type bonuses.     
         """
-        
+        #calculates probability based on angle and distance
         self.prob1 = angle_prob(self.angle)
         self.prob2 = dist_prob(normalize_dist(self.h, court_len, court_width))
         self.prob = (self.prob1 * self.prob2)
         
+        #defines type bonuses for different shots
         type_bonuses = {
             "lay-up": 0.10,
             "free-throw": 0.075,
@@ -437,6 +441,7 @@ class Coordinate:
             "two-pointer": 0.0
         }
         
+        #determines shot type based on conditions and then applies the bonuses
         if self.h <=1:
             key = "lay-up"  
             self.type = key
