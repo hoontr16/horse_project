@@ -36,8 +36,8 @@ After running the horse.py program, the terminal will ask you how you would like
 |display_shot_history| Arvin Torabazari| N/A|
 |main|Yash Khanna|N/A| 
 |display_scores| Yash Khanna |f-strings containing expressions|
-|str| Yash Khanna |using a magic method|
+|`__str__`| Yash Khanna |using a magic method|
 |shoot            |Kobe Cheng      |key function using min() |
 |value            |Kobe Cheng      |list comprehension |
 |HumanPlayer.pick_location| Hunter Horst| regular expressions|
-|ComputerPlayer.__init__| Hunter Horst| super()|
+|ComputerPlayer.`__init__`| Hunter Horst| super()|
