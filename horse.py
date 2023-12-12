@@ -14,9 +14,6 @@ def parse_args():
     parser.add_argument("-humans", type=int, default=None, help="number of human players", required = False) 
     parser.add_argument("-CPUs", type=int, default=None, help="number of computer players", required = False)
     
-    #add argument for file name
-    parser.add_argument("-filename", type=str, default = None, help="File to write shot history to", required = False)
-    
     args = parser.parse_args()
 
     return args
@@ -119,7 +116,7 @@ class GameState:
         for player in self.players: #iterates through every player in self.players 
             print(f"{player.name}'s Shot History {player.shot_history}") 
             
-    def history_to_file(self, filename):
+    def history_to_file(self, filename='shot_history.txt'):
         """Writes the shot history for each player to a file.
 
         Arguments:
@@ -616,7 +613,7 @@ def main():
     print(f"{gs.check_win().name} wins!")
     print(gs.display_shot_history()) #prints the shot history at the end of the game 
     
-    gs.history_to_file(args.filename)
+
         
 if __name__ == '__main__':
     grid = make_grid(court_len, court_width)
