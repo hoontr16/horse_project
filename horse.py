@@ -612,7 +612,7 @@ def main():
 
     print(f"{gs.check_win().name} wins!")
     print(gs.display_shot_history()) #prints the shot history at the end of the game 
-    
+    gs.history_to_file()  #writes history to a file
 
         
 if __name__ == '__main__':
