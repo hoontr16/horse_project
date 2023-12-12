@@ -2,6 +2,25 @@ from random import shuffle, choice, gauss, random
 from math import atan2, exp, pi
 import re
 from time import sleep
+import argparse
+
+def parse_args():
+    """ parse command line arguments
+    """
+    
+    parser = argparse.ArgumentParser(description = "Game of Horse")
+    
+    #adds arguments for the different kind of players (Human or CPU)
+    parser.add_argument("-humans", type=int, default=None, help="number of human players", required = False) 
+    parser.add_argument("-CPUs", type=int, default=None, help="number of computer players", required = False)
+    
+    #add argument for file name
+    parser.add_argument("-filename", type=str, default = None, help="File to write shot history to", required = False)
+    
+    args = parser.parse_args()
+
+    return args
+
 
 class GameState:
     """ The current game, keeping track of the players and turn order.
@@ -99,6 +118,17 @@ class GameState:
         """
         for player in self.players: #iterates through every player in self.players 
             print(f"{player.name}'s Shot History {player.shot_history}") 
+            
+    def history_to_file(self, filename):
+        """Writes the shot history for each player to a file.
+
+        Arguments:
+            filename (str): The name of the file to write the shot history.
+            """
+        #opens and writes to file
+        with open(filename, 'w') as f:
+            for player in self.players:
+                f.write(f"{player.name}'s shot history: {player.shot_history}\n")
     
 
     def display_scores(self):
@@ -573,6 +603,7 @@ def draw_court(current_location = None):
 def main():
     """ Create and run the game.
     """
+    args = parse_args()
     gs = GameState()
     n = 0
     while gs.check_win() is None:
@@ -585,6 +616,8 @@ def main():
 
     print(f"{gs.check_win().name} wins!")
     print(gs.display_shot_history()) #prints the shot history at the end of the game 
+    
+    gs.history_to_file(args.filename)
         
 if __name__ == '__main__':
     grid = make_grid(court_len, court_width)
