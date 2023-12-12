@@ -25,7 +25,7 @@ draw_court.py: To show Arvin's contribution to the draw_court function.
 README.md: Documentation 
 
 ### Running the program
-After running the horse.py program, the terminal will ask you how you would like to play. You can play with two human players, 1 human player, and one computer player or two computer players. If you specify human players the terminal will ask you to enter your name. Whenever it is a human player's turn, they have to press the enter to continue, and an empty court representation will be shown in the terminal. Then they are asked to input a location in x, y format. Whenever it is a computer player's turn, click enter to continue. 
+After running the horse.py program, the terminal will ask you how you would like to play. You can play with two human players, one human player, and one computer player or two computer players. If you specify human players the terminal will ask you to enter your name. Whenever it is a human player's turn, they have to press the enter to continue, and an empty court representation will be shown in the terminal. Then they are asked to input a location in x, y format. Whenever it is a computer player's turn, click enter to continue. 
 
 ### Attribution
 
@@ -40,4 +40,4 @@ After running the horse.py program, the terminal will ask you how you would like
 |shoot            |Kobe Cheng      |key function using min() |
 |value            |Kobe Cheng      |list comprehension |
 |HumanPlayer.pick_location| Hunter Horst| regular expressions|
-|ComputerPlayer.`__init__`| Hunter Horst| super()|
+|ComputerPlayer.`__init__`| Hunter Horst| super()| parse_args| Darren Hollis| ArgumentParser class| history_to_file| Darren Hollis| with statements|
