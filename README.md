@@ -40,4 +40,6 @@ After running the horse.py program, the terminal will ask you how you would like
 |shoot            |Kobe Cheng      |key function using min() |
 |value            |Kobe Cheng      |list comprehension |
 |HumanPlayer.pick_location| Hunter Horst| regular expressions|
-|ComputerPlayer.`__init__`| Hunter Horst| super()| parse_args| Darren Hollis| ArgumentParser class| history_to_file| Darren Hollis| with statements|
+|ComputerPlayer.`__init__`| Hunter Horst| super()
+|parse_args| Darren Hollis| ArgumentParser class| 
+|history_to_file| Darren Hollis| with statements|
