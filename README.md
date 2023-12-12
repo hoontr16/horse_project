@@ -24,7 +24,7 @@ draw_court.py: To show Arvin's contribution to the draw_court function.
 
 README.md: Documentation 
 
-shot_history.txt : file containing shot history of all players
+shot_history.txt : file containing shot history of all players (gets added at the end of game)
 
 ### Running the program
 After running the horse.py program, the terminal will ask you how you would like to play. You can play with two human players, one human player, and one computer player or two computer players. If you specify human players the terminal will ask you to enter your name. Whenever it is a human player's turn, they have to press the enter to continue, and an empty court representation will be shown in the terminal. Then they are asked to input a location in x, y format. Whenever it is a computer player's turn, click enter to continue. 
